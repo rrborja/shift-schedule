@@ -23,7 +23,7 @@ import (
 	"net/http"
 	"os/exec"
 
-	".."
+	"github.com/rrborja/shift-schedule"
 )
 
 func main() {
