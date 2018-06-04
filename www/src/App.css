@@ -1,0 +1,8 @@
+.date-picker-size {
+    min-width: 260px;
+    width: auto;
+    height: 30px;
+    text-align: center;
+    font-size: 1rem;
+    margin-bottom: 20px;
+}

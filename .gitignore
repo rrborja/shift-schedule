@@ -1,0 +1,6 @@
+cmd/*
+
+!cmd/install.sh
+!cmd/main.go
+
+.idea

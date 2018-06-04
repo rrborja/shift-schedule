@@ -1,0 +1,63 @@
+.vacant {
+    height: 23px;
+    cursor:pointer;
+    text-align:center;
+    vertical-align:middle;
+    display: table-cell;
+    column-width: 220px;
+}
+
+.main {
+    display: table-cell;
+    background-color: orange;
+    height: 100%;
+    border: 1px dotted blue;
+}
+
+input, select {
+    width: 100%;
+}
+
+.form label, .form input, .form select {
+    margin: 5px;
+}
+
+input {
+    height: 30px;
+    width: 90%;
+    font-size: 1rem;
+    padding-left: 10px;
+}
+
+select {
+    width: 95%;
+    height: 30px;
+    font-size: 1rem;
+    padding-left: 10px;
+}
+
+.submit {
+    display:inline-block;
+    background-color: rgba(30, 245, 119, 0.59);
+    border:1px solid #CCC;
+    box-shadow: 0 0 5px -1px rgba(165, 165, 165, 0.05);
+    cursor:pointer;
+    vertical-align:middle;
+    width: 70px;
+    padding: 5px;
+    text-align: center;
+    margin: 5px;
+}
+
+.cancel {
+    display:inline-block;
+    background-color: rgba(30, 245, 119, 0);
+    border:1px solid #CCC;
+    box-shadow: 0 0 5px -1px rgba(0,0,0,0.2);
+    cursor:pointer;
+    vertical-align:middle;
+    max-width: 100px;
+    padding: 5px;
+    text-align: center;
+    margin: 5px;
+}

@@ -1,0 +1,19 @@
+#time-table {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#time-table td {
+    padding: 2px;
+    padding-right: 10px;
+}
+
+.worker {
+    border: 1px solid #ddd;
+    text-align:center;
+    vertical-align:middle;
+    column-width: 210px;
+    background-color: rgba(29, 206, 67, 0.54);
+    display: table-cell;
+}
