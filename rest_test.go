@@ -47,3 +47,9 @@ func TestWorkingAddShiftRoute(t *testing.T) {
 			status, http.StatusOK)
 	}
 }
+
+func TestPrint(t *testing.T) {
+	if print(&Shift{Start: 0, End: 48, Employee: Employee{"Tester", 666}}) == "" {
+		t.Fail()
+	}
+}
