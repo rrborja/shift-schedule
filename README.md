@@ -10,15 +10,16 @@
 
 1. Clone this repository `git clone https://github.com/rrborja/shift-schedule`
 2. Go to the `cmd` directory and run the shell script `install.sh`
-3. Make sure the Node.js and Go are installed in your system
-4. Once NPM installation is complete, you may access the page `http://localhost:3000`
+3. When you run the shell script, make sure you are in the current working directory of `cmd`
+4. Make sure the Node.js and Go runtime environments are installed in your system
+5. Once NPM installation is complete, you may access the page `http://localhost:3000`
 
 # API
 
 1. To retrieve the current shift
-    -   GET `https://localhost:8080/MM/dd/yyyy`
+    -   GET `http://localhost:8080/MM/dd/yyyy`
 2. To add the employee to the current shift
-    -   PUT `https://localhost:8080/MM/dd/yyyy`
+    -   PUT `http://localhost:8080/MM/dd/yyyy`
     -   The content type for the response body is JSON
             - `name`: name of the employee
             - `id`: id of the employee
