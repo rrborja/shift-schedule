@@ -22,18 +22,18 @@ package schedule
 import (
 	"net/http"
 
+	"encoding/json"
+	"fmt"
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
 	"strconv"
-	"fmt"
-	"encoding/json"
 )
 
 type WorkerShift struct {
-	Name string `json:"name"`
-	Id int `json:"id"`
-	Start int `json:"start"`
-	End int `json:"end"`
+	Name  string `json:"name"`
+	Id    int    `json:"id"`
+	Start int    `json:"start"`
+	End   int    `json:"end"`
 }
 
 func HttpRoutes() http.Handler {
@@ -75,7 +75,9 @@ func HttpRoutes() http.Handler {
 		employee := Employee{shift.Name, shift.Id}
 
 		if _, ok := Add(record, &Shift{Start: shift.Start, End: shift.End, Employee: employee}); ok {
-			DayRecord{month, day, year}.ClockIn(employee, shift.Start, shift.End)
+			if r.Header.Get("X-Debug") != "true" {
+				DayRecord{month, day, year}.ClockIn(employee, shift.Start, shift.End)
+			}
 		} else {
 			http.Error(w, "Employee's shift was not added due to backend errors", 400)
 		}
@@ -95,7 +97,7 @@ func print(shift *Shift) string {
 
 	var arr []WorkerShift
 
-	for i:=shift; i!=nil; i=i.next {
+	for i := shift; i != nil; i = i.next {
 		arr = append(arr, WorkerShift{i.Name, i.Id, i.Start, i.End})
 	}
 

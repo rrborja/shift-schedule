@@ -25,7 +25,7 @@ import (
 
 type Shift struct {
 	Start int
-	End int
+	End   int
 
 	Employee
 
@@ -40,25 +40,21 @@ type Shifter interface {
 
 type Employee struct {
 	Name string
-	Id int
+	Id   int
 }
 
-func ShiftDay(date string) Shifter {
-	return nil
-}
-
-func Add(first *Shift, employee *Shift) (nouse *Shift, success bool) {
-	if first != nil {
-		for i := first; i != nil; i = i.next {
-			if success = i.Add(employee); success {
-				break
-			}
-		}
-	} else {
-		success = true
+func Add(first *Shift, employee *Shift) (*Shift, bool) {
+	if first == nil {
+		return employee, true
 	}
 
-	return employee, success
+	for i := first; i != nil; i = i.next {
+		if i.Add(employee) {
+			return employee, true
+		}
+	}
+
+	return employee, false
 }
 
 // Current shift is the previous of the employee shift
@@ -81,15 +77,15 @@ func (shift *Shift) Add(employee *Shift) bool {
 
 	if shift.Start < employee.Start && employee.Start < shift.next.Start &&
 		!shift.Overlaps(Interval(employee)) {
-			nextShift := shift.next
+		nextShift := shift.next
 
-			employee.prev = shift
-			shift.next = employee
+		employee.prev = shift
+		shift.next = employee
 
-			nextShift.prev = employee
-			employee.next = nextShift
+		nextShift.prev = employee
+		employee.next = nextShift
 
-			return true
+		return true
 	}
 
 	return false
@@ -98,7 +94,7 @@ func (shift *Shift) Add(employee *Shift) bool {
 func (shift *Shift) Overlaps(interval func() (int, int)) bool {
 	start, end := interval()
 
-	for i:=shift; i!=nil; i=i.next {
+	for i := shift; i != nil; i = i.next {
 		if math.Min(float64(i.End), float64(end)) > math.Max(float64(i.Start), float64(start)) {
 			return true
 		}
@@ -117,5 +113,5 @@ func TimeToNumeric(hour int, minute int) int {
 		return -1
 	}
 
-	return hour * 2 - ^( ^minute & ( minute + ^0 ) ) >> 31
+	return hour*2 - ^(^minute&(minute+^0))>>31
 }
