@@ -1,10 +1,12 @@
 # Shift Scheduler
 
-[![GoDoc](https://godoc.org/github.com/rrborja/shift-schedule?status.svg)](https://godoc.org/github.com/rrborja/shift-schedule)
-[![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl.txt)  
 [![Build Status](https://travis-ci.org/rrborja/shift-schedule.svg?branch=master)](https://travis-ci.org/rrborja/shift-schedule)
 [![codecov](https://codecov.io/gh/rrborja/shift-schedule/branch/master/graph/badge.svg)](https://codecov.io/gh/rrborja/shift-schedule)
 [![Go Report Card](https://goreportcard.com/badge/github.com/rrborja/shift-schedule)](https://goreportcard.com/report/github.com/rrborja/shift-schedule)
+[![GoDoc](https://godoc.org/github.com/rrborja/shift-schedule?status.svg)](https://godoc.org/github.com/rrborja/shift-schedule) 
+[![License: GPL v2+](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl.txt)
+
+Another way to simply schedule employee's shift using Go for the backend and React for the user interface
 
 # Usage
 
