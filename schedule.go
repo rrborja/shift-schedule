@@ -1,5 +1,5 @@
 /*
- * State Server API
+ * Shift Scheduler
  * Copyright (C) 2018  Ritchie Borja
  *
  * This program is free software; you can redistribute it and/or modify
@@ -33,16 +33,15 @@ type Shift struct {
 	next *Shift
 }
 
-type Shifter interface {
-	Add(employee Employee)
-	Overlaps(start int, end int) bool
-}
-
+// Employee is the struct for Employee having a name and an ID
 type Employee struct {
 	Name string
 	Id   int
 }
 
+// Add adds the new employee to the day's shift's linked list and
+// automatically validates any overlapping schedules and inserts
+// according to the order of time
 func Add(first *Shift, employee *Shift) (*Shift, bool) {
 	if first == nil {
 		return employee, true
@@ -57,7 +56,10 @@ func Add(first *Shift, employee *Shift) (*Shift, bool) {
 	return employee, false
 }
 
-// Current shift is the previous of the employee shift
+// Add validates the correctness of employee's schedule to the
+// current shift's list of all employees' schedule and adds to
+// the shift if the new employee doesn't overlap any schedule
+// of all employees
 func (shift *Shift) Add(employee *Shift) bool {
 	if l, r := Interval(employee)(); l > r {
 		return false
@@ -91,6 +93,9 @@ func (shift *Shift) Add(employee *Shift) bool {
 	return false
 }
 
+// Overlaps checks the interval whether it will not overlap
+// to the current shifts schedule. Returns true if it overlaps.
+// Returns otherwise.
 func (shift *Shift) Overlaps(interval func() (int, int)) bool {
 	start, end := interval()
 
@@ -102,12 +107,17 @@ func (shift *Shift) Overlaps(interval func() (int, int)) bool {
 	return false
 }
 
+// Interval is the wrapper function that extract's the employee's shift
+// time information into interval
 func Interval(shift *Shift) func() (start, end int) {
 	return func() (start, end int) {
 		return shift.Start, shift.End
 	}
 }
 
+// TimeToNumeric converts hour and minute into the equivalent
+// integer representation that serves as the order or index
+// of a 24-hour pattern
 func TimeToNumeric(hour int, minute int) int {
 	if hour < 0 || hour >= 24 {
 		return -1

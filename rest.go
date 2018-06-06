@@ -1,5 +1,5 @@
 /*
- * State Server API
+ * Shift Scheduler
  * Copyright (C) 2018  Ritchie Borja
  *
  * This program is free software; you can redistribute it and/or modify
@@ -29,6 +29,9 @@ import (
 	"strconv"
 )
 
+// WorkerShift is the json structure for the PUT REST route used to store
+// the employee's shift in the storage, assuming no schedule overlapping
+// occurs.
 type WorkerShift struct {
 	Name  string `json:"name"`
 	Id    int    `json:"id"`
@@ -36,6 +39,14 @@ type WorkerShift struct {
 	End   int    `json:"end"`
 }
 
+// HttpRoutes is the combination of all routes to expose the scheduling
+// API to the web.
+// The sole route /{month}/{day}/{year} has two methods:
+// 		1. GET - To retrieve the list of all employees' shift given
+//				 a certain shift date
+//		2. PUT - Creates a new employee shift to the list of all
+// 				 employee shifts assuming it doesn't overlap with the
+// 				 schedule.
 func HttpRoutes() http.Handler {
 	routes := mux.NewRouter()
 

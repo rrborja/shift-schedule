@@ -1,5 +1,5 @@
 /*
- * State Server API
+ * Shift Scheduler
  * Copyright (C) 2018  Ritchie Borja
  *
  * This program is free software; you can redistribute it and/or modify
@@ -20,27 +20,36 @@
 package schedule
 
 import (
-	"os"
+	"fmt"
 	"io/ioutil"
+	"os"
+	"path"
 	"sort"
 	"strconv"
-	"fmt"
-	"path"
 	"strings"
 )
 
+// DayRecord is a struct that holds the Month, Day, and Year
+// to form the basis of the name of the directory for later
+// storage of all shifts. This struct contains methods that
+// let's the user save the new employee's shift to the day
+// shift in the DayRecord directory
 type DayRecord struct {
 	Month int
-	Day int
-	Year int
+	Day   int
+	Year  int
 }
 
+// NoIOPermissionsPanic is a checker if an error is returned
+// by the File Handling library
 func NoIOPermissionsPanic(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
 
+// CheckNumber is a checker if an error is returned by
+// the string conversion library
 func CheckNumber(num int, err error) int {
 	if err != nil {
 		panic(err)
@@ -49,10 +58,17 @@ func CheckNumber(num int, err error) int {
 	return num
 }
 
+// String is the string representation of the DayRecord struct
 func (dayRecord DayRecord) String() string {
 	return fmt.Sprintf("%d.%d.%d", dayRecord.Month, dayRecord.Day, dayRecord.Year)
 }
 
+// ClockIn clocks in the employee with the start and end time interval
+// to the current shift day. This makes use of the scheduler's overlapping
+// logic and the operations of the linked list used by the scheduler.
+// When nothing overlaps, the employee shift information will be stored
+// in a text file inside the directory that is named by the date of the
+// shift in question.
 func (store DayRecord) ClockIn(worker Employee, start, end int) {
 	if _, err := os.Stat(store.String()); os.IsNotExist(err) {
 		os.Mkdir(store.String(), 0700)
@@ -65,7 +81,7 @@ func (store DayRecord) ClockIn(worker Employee, start, end int) {
 	counter := 1
 
 	if len(files) > 0 {
-		sort.Slice(files, func(i,j int) bool{
+		sort.Slice(files, func(i, j int) bool {
 			return files[i].Name() < files[j].Name()
 		})
 
@@ -85,6 +101,9 @@ func (store DayRecord) ClockIn(worker Employee, start, end int) {
 	fmt.Fprintf(workerFile, "%s:%d:%d:%d", worker.Name, worker.Id, start, end)
 }
 
+// Construct is the construction of the linked list of all employees' shift
+// from a certain shift day. This retrieves all text files in a certain
+// directory named after the shift day in m.d.YYYY format
 func Construct(record DayRecord) *Shift {
 	if _, err := os.Stat(record.String()); os.IsNotExist(err) {
 		return nil
