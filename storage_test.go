@@ -22,6 +22,7 @@ package schedule
 import (
 	"errors"
 	"os"
+	"path"
 	"testing"
 )
 
@@ -55,4 +56,20 @@ func TestCheckNumber(t *testing.T) {
 	}()
 	CheckNumber(-1, errors.New("dummy"))
 	t.Fail()
+}
+
+func TestSkipDirectoryAndInvalidShiftFormat(t *testing.T) {
+	testRecord := DayRecord{6, 6, 2006}
+
+	folder := testRecord.String()
+
+	os.Mkdir(folder, 0700)
+	defer os.RemoveAll(folder)
+
+	os.Mkdir(path.Join(folder, "dummy"), 0700)
+	os.Create(path.Join(folder, "1.txt"))
+
+	if Construct(testRecord) != nil {
+		t.Error("Test data in 6.6.2006 should be empty")
+	}
 }

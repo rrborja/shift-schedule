@@ -187,3 +187,11 @@ func TestTimeToNumericInvalidHours(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestReverseInterval(t *testing.T) {
+	shift := &Shift{Start: 48, End: 0}
+
+	if (&Shift{}).Add(shift) != false {
+		t.Error("Shift should not be added if an interval is reversed")
+	}
+}
