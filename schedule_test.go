@@ -1,5 +1,5 @@
 /*
- * State Server API
+ * Shift Scheduler
  * Copyright (C) 2018  Ritchie Borja
  *
  * This program is free software; you can redistribute it and/or modify
@@ -25,7 +25,7 @@ import (
 
 func initialTestData() *Shift {
 	jack := &Shift{Start: 0,
-		End: 6,
+		End:      6,
 		Employee: Employee{"Jack", 17},
 	}
 	jill := &Shift{
@@ -63,35 +63,35 @@ func initialTestData() *Shift {
 }
 
 func TestShiftGapNothingOverlapped(t *testing.T) {
-	start, end := TimeToNumeric(11,30), TimeToNumeric(13, 0)
+	start, end := TimeToNumeric(11, 30), TimeToNumeric(13, 0)
 	if initialTestData().Overlaps(Interval(&Shift{Start: start, End: end})) {
 		t.Fail()
 	}
 }
 
 func TestShiftGapOverlappedLeftBound(t *testing.T) {
-	start, end := TimeToNumeric(11,00), TimeToNumeric(13, 0)
+	start, end := TimeToNumeric(11, 00), TimeToNumeric(13, 0)
 	if !initialTestData().Overlaps(Interval(&Shift{Start: start, End: end})) {
 		t.Fail()
 	}
 }
 
 func TestShiftGapOverlappedRightBound(t *testing.T) {
-	start, end := TimeToNumeric(11,30), TimeToNumeric(13, 30)
+	start, end := TimeToNumeric(11, 30), TimeToNumeric(13, 30)
 	if !initialTestData().Overlaps(Interval(&Shift{Start: start, End: end})) {
 		t.Fail()
 	}
 }
 
 func TestShiftGapOverlappedBothBound(t *testing.T) {
-	start, end := TimeToNumeric(11,00), TimeToNumeric(13, 30)
+	start, end := TimeToNumeric(11, 00), TimeToNumeric(13, 30)
 	if !initialTestData().Overlaps(Interval(&Shift{Start: start, End: end})) {
 		t.Fail()
 	}
 }
 
 func TestAddWorkerToShiftSuccessful(t *testing.T) {
-	start, end := TimeToNumeric(11,30), TimeToNumeric(13, 0)
+	start, end := TimeToNumeric(11, 30), TimeToNumeric(13, 0)
 	ritchie := &Shift{Start: start, End: end, Employee: Employee{"Ritchie", 666}}
 
 	shift := initialTestData()
@@ -146,7 +146,7 @@ func TestAddWorkerToLastShift(t *testing.T) {
 
 	var last *Shift
 
-	for i := shift; i!=nil; i=i.next {
+	for i := shift; i != nil; i = i.next {
 		last = i
 	}
 

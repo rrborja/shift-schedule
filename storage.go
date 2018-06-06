@@ -24,7 +24,6 @@ import (
 	"io/ioutil"
 	"os"
 	"path"
-	"sort"
 	"strconv"
 	"strings"
 )
@@ -69,31 +68,18 @@ func (dayRecord DayRecord) String() string {
 // When nothing overlaps, the employee shift information will be stored
 // in a text file inside the directory that is named by the date of the
 // shift in question.
-func (store DayRecord) ClockIn(worker Employee, start, end int) {
-	if _, err := os.Stat(store.String()); os.IsNotExist(err) {
-		os.Mkdir(store.String(), 0700)
+func (dayRecord DayRecord) ClockIn(worker Employee, start, end int) {
+	if _, err := os.Stat(dayRecord.String()); os.IsNotExist(err) {
+		os.Mkdir(dayRecord.String(), 0700)
 	}
 
-	files, err := ioutil.ReadDir(store.String())
+	files, err := ioutil.ReadDir(dayRecord.String())
 
 	NoIOPermissionsPanic(err)
 
-	counter := 1
+	counter := len(files) + 1
 
-	if len(files) > 0 {
-		sort.Slice(files, func(i, j int) bool {
-			return files[i].Name() < files[j].Name()
-		})
-
-		filename := files[len(files)-1].Name()
-		filename = filename[:len(filename)-4]
-
-		counter = CheckNumber(strconv.Atoi(filename))
-
-		counter++
-	}
-
-	workerFile, err3 := os.Create(path.Join(store.String(), fmt.Sprintf("%d.txt", counter)))
+	workerFile, err3 := os.Create(path.Join(dayRecord.String(), fmt.Sprintf("%d.txt", counter)))
 	defer workerFile.Close()
 
 	NoIOPermissionsPanic(err3)

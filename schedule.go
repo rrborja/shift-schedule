@@ -23,6 +23,11 @@ import (
 	"math"
 )
 
+// Shift is the structure for the Shift of the employee. Start is the
+// starting time of the employee inclusively while the End is the
+// ending shift of the employee exclusively. This struct is the node
+// of a doubly-linked list. The next node must be the next shift
+// accordingly by time.
 type Shift struct {
 	Start int
 	End   int
